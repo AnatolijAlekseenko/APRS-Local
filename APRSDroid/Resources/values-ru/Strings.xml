@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <string name="ApplicationName">APRSDroid</string>
+  <string name="openCamera">Открыть фотокамеру</string>
+  <string name="sendPic">Распознать</string>
+  <string name="openFile">Открыть файл</string>
+  <string name="m_settings">Настройки</string>
+  <string name="connectionString">URL подключения</string>
+  <string name="btn_save">Сохранить</string>
+  <string name="empty_photo">Распознавать нечего. Сделайте фото или выберите файл.</string>
+  <string name="warning">Предупреждение</string>
+  <string name="loadig">Загрузка...</string>
+  <string name="permision_available_camera">Разрешение камеры предоставлено.</string>
+  <string name="permissions_not_granted">Разрешения не были предоставлены.</string>
+  <string name="permission_camera_rationale">Разрешение камеры необходимо для работы приложения.</string>
+  <string name="permision_available_storage">Разрешение на хранилище предоставлено.</string>
+  <string name="permission_storage_rationale">Для отображения файлов требуется разрешение к хранилищу.</string>
+</resources>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <style name="Splash">
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowBackground">@drawable/splash</item>
+  </style>
+  <style name="MyCustomTheme" parent="android:Theme.Material.Light">
+    <!-- Customizations go here -->
+    <item name="android:colorPrimary">@color/my_blue</item>
+    <!-- Override the color of UI controls -->
+    <item name="android:colorAccent">@color/my_purple</item>
+  </style>
+</resources>

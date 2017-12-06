@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="10"
+    tools:menu="options_menu">
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_weight="10"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside" />
+    <Button
+        android:layout_weight="1"
+        android:id="@+id/btnCamera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/openCamera" />
+    <Button
+        android:layout_weight="1"
+        android:id="@+id/btnFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/openFile" />
+    <Button
+        android:layout_weight="1"
+        android:id="@+id/btnSendPic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sendPic" />
+</LinearLayout>
