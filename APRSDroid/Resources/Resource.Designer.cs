@@ -2274,11 +2274,11 @@ namespace APRSDroid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f0800a1
-			public const int LabelConnString = 2131230881;
+			// aapt resource value: 0x7f0800a2
+			public const int LabelConnString = 2131230882;
 			
-			// aapt resource value: 0x7f08008d
-			public const int action0 = 2131230861;
+			// aapt resource value: 0x7f08008e
+			public const int action0 = 2131230862;
 			
 			// aapt resource value: 0x7f080064
 			public const int action_bar = 2131230820;
@@ -2301,17 +2301,17 @@ namespace APRSDroid
 			// aapt resource value: 0x7f080041
 			public const int action_bar_title = 2131230785;
 			
-			// aapt resource value: 0x7f08008a
-			public const int action_container = 2131230858;
+			// aapt resource value: 0x7f08008b
+			public const int action_container = 2131230859;
 			
 			// aapt resource value: 0x7f080065
 			public const int action_context_bar = 2131230821;
 			
-			// aapt resource value: 0x7f080091
-			public const int action_divider = 2131230865;
+			// aapt resource value: 0x7f080092
+			public const int action_divider = 2131230866;
 			
-			// aapt resource value: 0x7f08008b
-			public const int action_image = 2131230859;
+			// aapt resource value: 0x7f08008c
+			public const int action_image = 2131230860;
 			
 			// aapt resource value: 0x7f080003
 			public const int action_menu_divider = 2131230723;
@@ -2328,11 +2328,11 @@ namespace APRSDroid
 			// aapt resource value: 0x7f080043
 			public const int action_mode_close_button = 2131230787;
 			
-			// aapt resource value: 0x7f08008c
-			public const int action_text = 2131230860;
+			// aapt resource value: 0x7f08008d
+			public const int action_text = 2131230861;
 			
-			// aapt resource value: 0x7f08009a
-			public const int actions = 2131230874;
+			// aapt resource value: 0x7f08009b
+			public const int actions = 2131230875;
 			
 			// aapt resource value: 0x7f080044
 			public const int activity_chooser_view_content = 2131230788;
@@ -2364,17 +2364,20 @@ namespace APRSDroid
 			// aapt resource value: 0x7f080088
 			public const int btnFile = 2131230856;
 			
+			// aapt resource value: 0x7f08008a
+			public const int btnLocal = 2131230858;
+			
 			// aapt resource value: 0x7f080089
 			public const int btnSendPic = 2131230857;
 			
-			// aapt resource value: 0x7f0800a3
-			public const int btn_save = 2131230883;
+			// aapt resource value: 0x7f0800a4
+			public const int btn_save = 2131230884;
 			
 			// aapt resource value: 0x7f08004b
 			public const int buttonPanel = 2131230795;
 			
-			// aapt resource value: 0x7f08008e
-			public const int cancel_action = 2131230862;
+			// aapt resource value: 0x7f08008f
+			public const int cancel_action = 2131230863;
 			
 			// aapt resource value: 0x7f080030
 			public const int center = 2131230768;
@@ -2388,8 +2391,8 @@ namespace APRSDroid
 			// aapt resource value: 0x7f08005b
 			public const int checkbox = 2131230811;
 			
-			// aapt resource value: 0x7f080096
-			public const int chronometer = 2131230870;
+			// aapt resource value: 0x7f080097
+			public const int chronometer = 2131230871;
 			
 			// aapt resource value: 0x7f080039
 			public const int clip_horizontal = 2131230777;
@@ -2400,8 +2403,8 @@ namespace APRSDroid
 			// aapt resource value: 0x7f080024
 			public const int collapseActionView = 2131230756;
 			
-			// aapt resource value: 0x7f0800a2
-			public const int connString = 2131230882;
+			// aapt resource value: 0x7f0800a3
+			public const int connString = 2131230883;
 			
 			// aapt resource value: 0x7f08004e
 			public const int contentPanel = 2131230798;
@@ -2442,8 +2445,8 @@ namespace APRSDroid
 			// aapt resource value: 0x7f080021
 			public const int end = 2131230753;
 			
-			// aapt resource value: 0x7f0800a0
-			public const int end_padder = 2131230880;
+			// aapt resource value: 0x7f0800a1
+			public const int end_padder = 2131230881;
 			
 			// aapt resource value: 0x7f08002a
 			public const int enterAlways = 2131230762;
@@ -2481,8 +2484,8 @@ namespace APRSDroid
 			// aapt resource value: 0x7f080049
 			public const int icon = 2131230793;
 			
-			// aapt resource value: 0x7f08009b
-			public const int icon_group = 2131230875;
+			// aapt resource value: 0x7f08009c
+			public const int icon_group = 2131230876;
 			
 			// aapt resource value: 0x7f080025
 			public const int ifRoom = 2131230757;
@@ -2493,8 +2496,8 @@ namespace APRSDroid
 			// aapt resource value: 0x7f080086
 			public const int imageView = 2131230854;
 			
-			// aapt resource value: 0x7f080097
-			public const int info = 2131230871;
+			// aapt resource value: 0x7f080098
+			public const int info = 2131230872;
 			
 			// aapt resource value: 0x7f080000
 			public const int item_touch_helper_previous_elevation = 2131230720;
@@ -2505,11 +2508,11 @@ namespace APRSDroid
 			// aapt resource value: 0x7f080034
 			public const int left = 2131230772;
 			
-			// aapt resource value: 0x7f08009c
-			public const int line1 = 2131230876;
+			// aapt resource value: 0x7f08009d
+			public const int line1 = 2131230877;
 			
-			// aapt resource value: 0x7f08009e
-			public const int line3 = 2131230878;
+			// aapt resource value: 0x7f08009f
+			public const int line3 = 2131230879;
 			
 			// aapt resource value: 0x7f08000f
 			public const int listMode = 2131230735;
@@ -2517,8 +2520,8 @@ namespace APRSDroid
 			// aapt resource value: 0x7f080048
 			public const int list_item = 2131230792;
 			
-			// aapt resource value: 0x7f0800a4
-			public const int listviewFiles = 2131230884;
+			// aapt resource value: 0x7f0800a5
+			public const int listviewFiles = 2131230885;
 			
 			// aapt resource value: 0x7f080083
 			public const int loadingImage = 2131230851;
@@ -2529,17 +2532,17 @@ namespace APRSDroid
 			// aapt resource value: 0x7f080084
 			public const int loadingProgressWheel = 2131230852;
 			
-			// aapt resource value: 0x7f0800a8
-			public const int m_settings = 2131230888;
+			// aapt resource value: 0x7f0800a9
+			public const int m_settings = 2131230889;
 			
 			// aapt resource value: 0x7f080085
 			public const int main_layout = 2131230853;
 			
-			// aapt resource value: 0x7f0800a7
-			public const int masked = 2131230887;
+			// aapt resource value: 0x7f0800a8
+			public const int masked = 2131230888;
 			
-			// aapt resource value: 0x7f080090
-			public const int media_actions = 2131230864;
+			// aapt resource value: 0x7f080091
+			public const int media_actions = 2131230865;
 			
 			// aapt resource value: 0x7f080022
 			public const int middle = 2131230754;
@@ -2562,14 +2565,14 @@ namespace APRSDroid
 			// aapt resource value: 0x7f080010
 			public const int normal = 2131230736;
 			
-			// aapt resource value: 0x7f080099
-			public const int notification_background = 2131230873;
+			// aapt resource value: 0x7f08009a
+			public const int notification_background = 2131230874;
+			
+			// aapt resource value: 0x7f080094
+			public const int notification_main_column = 2131230868;
 			
 			// aapt resource value: 0x7f080093
-			public const int notification_main_column = 2131230867;
-			
-			// aapt resource value: 0x7f080092
-			public const int notification_main_column_container = 2131230866;
+			public const int notification_main_column_container = 2131230867;
 			
 			// aapt resource value: 0x7f080037
 			public const int parallax = 2131230775;
@@ -2595,11 +2598,11 @@ namespace APRSDroid
 			// aapt resource value: 0x7f080035
 			public const int right = 2131230773;
 			
-			// aapt resource value: 0x7f080098
-			public const int right_icon = 2131230872;
+			// aapt resource value: 0x7f080099
+			public const int right_icon = 2131230873;
 			
-			// aapt resource value: 0x7f080094
-			public const int right_side = 2131230868;
+			// aapt resource value: 0x7f080095
+			public const int right_side = 2131230869;
 			
 			// aapt resource value: 0x7f08001b
 			public const int screen = 2131230747;
@@ -2694,8 +2697,8 @@ namespace APRSDroid
 			// aapt resource value: 0x7f080036
 			public const int start = 2131230774;
 			
-			// aapt resource value: 0x7f08008f
-			public const int status_bar_latest_event_content = 2131230863;
+			// aapt resource value: 0x7f080090
+			public const int status_bar_latest_event_content = 2131230864;
 			
 			// aapt resource value: 0x7f08005e
 			public const int submenuarrow = 2131230814;
@@ -2706,11 +2709,11 @@ namespace APRSDroid
 			// aapt resource value: 0x7f080011
 			public const int tabMode = 2131230737;
 			
-			// aapt resource value: 0x7f08009f
-			public const int text = 2131230879;
+			// aapt resource value: 0x7f0800a0
+			public const int text = 2131230880;
 			
-			// aapt resource value: 0x7f08009d
-			public const int text2 = 2131230877;
+			// aapt resource value: 0x7f08009e
+			public const int text2 = 2131230878;
 			
 			// aapt resource value: 0x7f080052
 			public const int textSpacerNoButtons = 2131230802;
@@ -2733,8 +2736,8 @@ namespace APRSDroid
 			// aapt resource value: 0x7f08000d
 			public const int textinput_error = 2131230733;
 			
-			// aapt resource value: 0x7f080095
-			public const int time = 2131230869;
+			// aapt resource value: 0x7f080096
+			public const int time = 2131230870;
 			
 			// aapt resource value: 0x7f08004a
 			public const int title = 2131230794;
@@ -2769,11 +2772,11 @@ namespace APRSDroid
 			// aapt resource value: 0x7f08000e
 			public const int view_offset_helper = 2131230734;
 			
-			// aapt resource value: 0x7f0800a6
-			public const int visible = 2131230886;
+			// aapt resource value: 0x7f0800a7
+			public const int visible = 2131230887;
 			
-			// aapt resource value: 0x7f0800a5
-			public const int webView = 2131230885;
+			// aapt resource value: 0x7f0800a6
+			public const int webView = 2131230886;
 			
 			// aapt resource value: 0x7f080027
 			public const int withText = 2131230759;
@@ -3166,32 +3169,35 @@ namespace APRSDroid
 			// aapt resource value: 0x7f090022
 			public const int bottom_sheet_behavior = 2131296290;
 			
-			// aapt resource value: 0x7f090030
-			public const int btn_save = 2131296304;
+			// aapt resource value: 0x7f090031
+			public const int btn_save = 2131296305;
 			
 			// aapt resource value: 0x7f090023
 			public const int character_counter_pattern = 2131296291;
 			
-			// aapt resource value: 0x7f09002f
-			public const int connectionString = 2131296303;
+			// aapt resource value: 0x7f090030
+			public const int connectionString = 2131296304;
 			
-			// aapt resource value: 0x7f090031
-			public const int empty_photo = 2131296305;
+			// aapt resource value: 0x7f090032
+			public const int empty_photo = 2131296306;
 			
 			// aapt resource value: 0x7f090029
 			public const int library_name = 2131296297;
 			
-			// aapt resource value: 0x7f090033
-			public const int loadig = 2131296307;
+			// aapt resource value: 0x7f090034
+			public const int loadig = 2131296308;
+			
+			// aapt resource value: 0x7f09002f
+			public const int m_settings = 2131296303;
+			
+			// aapt resource value: 0x7f09002c
+			public const int openCamera = 2131296300;
 			
 			// aapt resource value: 0x7f09002e
-			public const int m_settings = 2131296302;
+			public const int openFile = 2131296302;
 			
 			// aapt resource value: 0x7f09002b
-			public const int openCamera = 2131296299;
-			
-			// aapt resource value: 0x7f09002d
-			public const int openFile = 2131296301;
+			public const int openLocal = 2131296299;
 			
 			// aapt resource value: 0x7f090024
 			public const int password_toggle_content_description = 2131296292;
@@ -3208,32 +3214,32 @@ namespace APRSDroid
 			// aapt resource value: 0x7f090028
 			public const int path_password_strike_through = 2131296296;
 			
-			// aapt resource value: 0x7f090034
-			public const int permision_available_camera = 2131296308;
-			
-			// aapt resource value: 0x7f090037
-			public const int permision_available_storage = 2131296311;
-			
-			// aapt resource value: 0x7f090036
-			public const int permission_camera_rationale = 2131296310;
+			// aapt resource value: 0x7f090035
+			public const int permision_available_camera = 2131296309;
 			
 			// aapt resource value: 0x7f090038
-			public const int permission_storage_rationale = 2131296312;
+			public const int permision_available_storage = 2131296312;
 			
-			// aapt resource value: 0x7f090035
-			public const int permissions_not_granted = 2131296309;
+			// aapt resource value: 0x7f090037
+			public const int permission_camera_rationale = 2131296311;
+			
+			// aapt resource value: 0x7f090039
+			public const int permission_storage_rationale = 2131296313;
+			
+			// aapt resource value: 0x7f090036
+			public const int permissions_not_granted = 2131296310;
 			
 			// aapt resource value: 0x7f090013
 			public const int search_menu_title = 2131296275;
 			
-			// aapt resource value: 0x7f09002c
-			public const int sendPic = 2131296300;
+			// aapt resource value: 0x7f09002d
+			public const int sendPic = 2131296301;
 			
 			// aapt resource value: 0x7f090014
 			public const int status_bar_notification_info_overflow = 2131296276;
 			
-			// aapt resource value: 0x7f090032
-			public const int warning = 2131296306;
+			// aapt resource value: 0x7f090033
+			public const int warning = 2131296307;
 			
 			static String()
 			{

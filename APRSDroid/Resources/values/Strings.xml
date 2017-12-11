@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="ApplicationName">APRSDroid</string>
+  <string name="openLocal">Local Recognize(NEW)</string>
   <string name="openCamera">Open Camera</string>
   <string name="sendPic">Recognize</string>
   <string name="openFile">Open File</string>

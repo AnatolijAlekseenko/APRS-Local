@@ -53,7 +53,7 @@ namespace APRSDroid
 
             //вытягиваем и записываем файлы каскадов из папки files
 
-            var get_path = Application.Context.GetExternalFilesDir(null).AbsolutePath;
+            var get_path = MainActivity.App._APRSDir.AbsolutePath;
             string[] filename = Directory.GetFiles(get_path, "*.xml");
             List<string> lst = new List<string>(filename);
             foreach (string cascade in lst)

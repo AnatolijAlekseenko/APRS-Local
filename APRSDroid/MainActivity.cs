@@ -21,6 +21,13 @@ using Android.Support.V4.App;
 using Android;
 using Android.Support.Design.Widget;
 using Android.Support.V4.Content;
+using Emgu.CV;
+using Emgu.CV.Structure;
+using Emgu.CV.Util;
+using System.Drawing;
+using FaceDetection;
+using System.Linq;
+
 
 namespace APRSDroid
 {
@@ -32,9 +39,9 @@ namespace APRSDroid
         int andrSDK;
         static readonly int REQUEST_CAMERA = 0;
         static readonly int REQUEST_STORAGE = 1;
-
-        protected override void OnCreate(Bundle bundle)
-        {
+        
+    protected override void OnCreate(Bundle bundle)
+    {
             andrSDK = int.Parse(Android.OS.Build.VERSION.Sdk);
             if (andrSDK >= 24)
             {
@@ -51,6 +58,8 @@ namespace APRSDroid
             {
                 CreateDirectoryForPictures();
 
+                CreateDefaultCascade();
+
                 // check write storage permission
                 var permissionCheck = ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage);
                 if (permissionCheck == Permission.Denied)
@@ -64,10 +73,57 @@ namespace APRSDroid
                 Button btnCamera = FindViewById<Button>(Resource.Id.btnCamera);
                 Button btnFile = FindViewById<Button>(Resource.Id.btnFile);
                 Button btnSendPic = FindViewById<Button>(Resource.Id.btnSendPic);
+                Button btnSendLoc = FindViewById<Button>(Resource.Id.btnLocal);
+
 
                 btnCamera.Click += BtnCamera_Click;
                 btnFile.Click += BtnFile_Click;
                 btnSendPic.Click += BtnSendPic_Click;
+                btnSendLoc.Click += BtnSendLoc_Click;
+            }
+        }
+
+        public Bitmap BtmpFact(string picture)
+        {
+            BitmapFactory.Options options;
+            Bitmap bitmap;
+
+            try
+            {
+    
+                bitmap = BitmapFactory.DecodeFile(picture);
+                return bitmap;
+            }
+            catch (Java.Lang.OutOfMemoryError e)
+            {
+                try
+                {
+                    options = new BitmapFactory.Options();
+                    options.InSampleSize = 2;
+                    bitmap = BitmapFactory.DecodeFile(picture, options);
+                    return bitmap;
+                }
+                catch (Exception ee)
+                {
+                    Toast.MakeText(this, "Ошибка в BtmpFact: " + ee, ToastLength.Short).Show();
+                    //return bitmap;
+                }
+                
+            }
+            return bitmap=null;
+
+        }
+
+        public static void loadLibrary(string libName)
+        {
+            try
+            {
+                Java.Lang.Runtime.GetRuntime().LoadLibrary(libName);
+            }
+            catch (Exception eee)
+            {
+                Android.Util.Log.Debug("Ошибка Runtime", eee.ToString());
+
             }
         }
 
@@ -85,49 +141,16 @@ namespace APRSDroid
             return true;
         }
 
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
-        {
-            if (requestCode == REQUEST_CAMERA)
-            {
-                // Check if the only required permission has been granted
-                if (grantResults.Length == 1 && grantResults[0] == Permission.Granted)
-                {
-                    // Camera permission has been granted, preview can be displayed
-                    Toast.MakeText(this, Resource.String.permision_available_camera, ToastLength.Long).Show();
-                }
-                else
-                {
-                    Toast.MakeText(this, Resource.String.permissions_not_granted, ToastLength.Long).Show();
-                }
-            }
-            else if (requestCode == REQUEST_STORAGE)
-            {
-                // Storage if the only required permission has been granted
-                if (grantResults.Length == 1 && grantResults[0] == Permission.Granted)
-                {
-                    // Storage permission has been granted, preview can be displayed
-                    Toast.MakeText(this, Resource.String.permision_available_storage, ToastLength.Long).Show();
-                    CreateDirectoryForPictures();
-                    Version.StatusVersionApp(App._dir.ToString(), this);
-                }
-                else
-                {
-                    Toast.MakeText(this, Resource.String.permissions_not_granted, ToastLength.Long).Show();
-                }
-            }
-            else
-            {
-                base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            }
-        }
-
         public static class App
         {
             public static File _file;
             public static File _dir;
+            public static File _APRSDir;
             public static Bitmap bitmap;
             public static Uri FilePath;
             public static string FilePathFull;
+
+            public const string def_cascade = "def-cascade.xml";
         }
 
 
@@ -139,6 +162,47 @@ namespace APRSDroid
             if (!App._dir.Exists())
             {
                 var result = App._dir.Mkdirs();
+            }
+        }
+
+        /// <summary>
+        /// Создать на устройстве файл def-cascade
+        /// </summary>
+        private async void CreateDefaultCascade()
+        {
+            App._APRSDir = new File(Environment.GetExternalStoragePublicDirectory(Environment.DataDirectory.Parent), "APRSDroid");
+            
+            if (!App._APRSDir.Exists())
+            {
+                var result = App._APRSDir.Mkdirs();
+            }
+
+            var get_path_files = App._APRSDir.AbsolutePath;
+            if (!System.IO.File.Exists(string.Format("{0}/{1}", get_path_files, App.def_cascade)))
+            {
+                try
+                {
+                    var localFolder = get_path_files;
+                    var MyFilePath = System.IO.Path.Combine(localFolder, App.def_cascade);
+
+                    using (var streamReader = new System.IO.StreamReader(Assets.Open(App.def_cascade)))
+                    {
+                        using (var memstream = new System.IO.MemoryStream())
+                        {
+                            streamReader.BaseStream.CopyTo(memstream);
+                            var bytes = memstream.ToArray();
+                            //write to local storage
+                            System.IO.File.WriteAllBytes(MyFilePath, bytes);
+
+                            MyFilePath = $"file://{localFolder}/{App.def_cascade}";
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Toast.MakeText(this, string.Format("Error def-cascade:{0}", ex.Message), ToastLength.Long).Show();
+                }
             }
         }
 
@@ -338,6 +402,84 @@ namespace APRSDroid
         }
 
         /// <summary>
+        /// Распознать изображение offline
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnSendLoc_Click(object sender, EventArgs e)
+        {
+            var p_cascade = APRSDroid.SettingsView.CascadeSaveFileName;
+
+            string filePath = string.Empty;
+
+            // Проверка пути к файлу
+            if (App._file != null)
+            {
+                filePath = App._file.Path;
+            }
+            else if (App.FilePathFull != null)
+            {
+                filePath = App.FilePathFull;
+            }
+            else
+            {
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.SetMessage(Resource.String.empty_photo);
+                alert.SetTitle(Resource.String.warning);
+                alert.SetPositiveButton("Ok", (senderAlert, args) => {
+                    //change value write your own set of instructions
+                    //you can also create an event for the same in xamarin
+                    //instead of writing things here
+                });
+
+
+                RunOnUiThread(() => {
+                    alert.Show();
+                });
+
+                return;
+            }
+
+            //Если каскад не пустой
+            if (!String.IsNullOrEmpty(p_cascade))
+            {
+                try
+                {
+
+                    GC.Collect();
+                    Toast.MakeText(this, string.Format("Используется Каскад:{0}", p_cascade), ToastLength.Short).Show();
+                    Recognize(filePath, p_cascade);
+
+                }
+                catch (Exception error)
+                {
+                    Toast.MakeText(this, "Error recognize: " + error, ToastLength.Short).Show();
+                    Android.Util.Log.Debug("Вот ошибка", error.ToString());
+                }
+            }
+            else
+            {
+
+                try
+                {
+                    GC.Collect();
+                    Toast.MakeText(this, "Используется Каскад по умолчанию", ToastLength.Short).Show();
+                    Recognize(filePath, App.def_cascade);
+                }
+                catch (Exception error)
+                {
+                    Toast.MakeText(this, "Error recognize: " + error.Message, ToastLength.Long).Show();
+                    Android.Util.Log.Debug("Вот ошибка", error.ToString());
+                }
+
+            }
+
+
+        }
+
+
+
+        /// <summary>
         /// Переход на WebView с результатом распознования
         /// </summary>
         /// <param name="p_path"></param>
@@ -346,6 +488,68 @@ namespace APRSDroid
             Intent webActivity = new Intent(this, typeof(APRSDroid.WebViewer));
             webActivity.PutExtra("filePath", p_path);
             StartActivity(webActivity);
+        }
+
+        /// <summary>
+        /// Метод разпознования объектов
+        /// </summary>
+        /// <param name="filenameForRecognize"></param>
+        /// <param name="cascade"></param>
+        private void Recognize(string filenameForRecognize, string cascade)
+        {
+            string filename = string.Format("{0}/{1}", App._APRSDir, cascade);
+
+            long time;
+
+            List<Rectangle> tubes = new List<Rectangle>();
+            List<Rectangle> old = new List<Rectangle>();
+            List<double> areaList = new List<double>();
+            CircleF circle = new CircleF();
+            int counter = 0;
+            int i = 1; //counter tubes
+            MCvFont font = new MCvFont(Emgu.CV.CvEnum.FONT.CV_FONT_HERSHEY_COMPLEX_SMALL, 1.0, 1.0);
+            //Haar cascade
+            var FileForRecognize = new Image<Bgr, byte>(filenameForRecognize);
+            DetectFace.Detect(FileForRecognize, filename, filename, tubes, old, out time);
+            double AVGarea = 0.00;
+            foreach (Rectangle tube in tubes)
+            {
+                var area = (3.14) * tube.Width * tube.Height;
+                areaList.Add(area);
+            }
+            try
+            {
+                AVGarea = areaList.Average();
+            }
+            catch (Exception nullObjDetect)
+            {
+                Toast.MakeText(this, "Нет найденых объектов!!!", ToastLength.Short).Show();
+            }
+            foreach (var tube in tubes.OrderBy(s => s.X).ThenBy(u => u.Y))
+            {
+                System.Drawing.Point point = new System.Drawing.Point(tube.X + tube.Width / 3, tube.Y + tube.Height / 2);
+                circle.Center = new System.Drawing.PointF(tube.X + tube.Width / 2, tube.Y + tube.Height / 2);
+                circle.Radius = tube.Width / 2;
+                var area = (3.14) * tube.Width * tube.Height;
+                if (area / AVGarea * 100 <= 40) // меньше или равно 20 % от среднего по детектируемым объектам - не выводить в детектор
+                    continue;
+                counter = i++;
+                if (FileForRecognize.Width <= 1024 && FileForRecognize.Height <= 768)
+                {
+                    FileForRecognize.Draw(circle, new Bgr(System.Drawing.Color.Yellow), 1);
+                    FileForRecognize.Draw(string.Format("{0}", counter), ref font, point, new Bgr(System.Drawing.Color.Red));
+                }
+                else
+                {
+                    FileForRecognize.Draw(circle, new Bgr(System.Drawing.Color.Yellow), 7);
+                    FileForRecognize.Draw(string.Format("{0}", counter), ref font, point, new Bgr(System.Drawing.Color.Red));
+                }
+            }
+            Toast.MakeText(this, "Количество: " + counter + "  Затрачено времени: " + time, ToastLength.Short).Show();
+            imageView.SetImageBitmap(FileForRecognize.ToBitmap());
+
+            GC.Collect();
+
         }
 
 

@@ -2,6 +2,7 @@
 <resources>
   <string name="ApplicationName">APRSDroid</string>
   <string name="openCamera">Открыть фотокамеру</string>
+  <string name="openLocal">Распознать локально(новое)</string>
   <string name="sendPic">Распознать</string>
   <string name="openFile">Открыть файл</string>
   <string name="m_settings">Настройки</string>
