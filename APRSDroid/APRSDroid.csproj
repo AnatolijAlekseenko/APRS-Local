@@ -173,9 +173,20 @@
     <Reference Include="Xamarin.Android.Support.Vector.Drawable, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Xamarin.Android.Support.Vector.Drawable.25.3.1\lib\MonoAndroid70\Xamarin.Android.Support.Vector.Drawable.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.Mobile">
+      <HintPath>..\..\assemblies\Xamarin.Mobile.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppPreferences.cs" />
+    <Compile Include="CropImg\BackgroundJob.cs" />
+    <Compile Include="CropImg\CropImage.cs" />
+    <Compile Include="CropImg\CropImageView.cs" />
+    <Compile Include="CropImg\HighlightView.cs" />
+    <Compile Include="CropImg\ImageViewTouchBase.cs" />
+    <Compile Include="CropImg\MonitoredActivity.cs" />
+    <Compile Include="CropImg\RotateBitmap.cs" />
+    <Compile Include="CropImg\Util.cs" />
     <Compile Include="DowlandVersionActivity.cs" />
     <Compile Include="LoadAndResizeBitmap.cs" />
     <Compile Include="MainActivity.cs" />
@@ -251,6 +262,7 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\DowlandVersion.axml" />
+    <AndroidResource Include="Resources\layout\cropimage.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">
@@ -313,7 +325,10 @@
   <ItemGroup>
     <AndroidAsset Include="Assets\def-cascade.xml" />
     <Content Include="new 3.txt" />
+    <AndroidResource Include="Resources\drawable\camera_crop_height.png" />
+    <AndroidResource Include="Resources\drawable\camera_crop_width.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -27,7 +27,7 @@ using Emgu.CV.Util;
 using System.Drawing;
 using FaceDetection;
 using System.Linq;
-
+using APRSDroid.CropImg;
 
 namespace APRSDroid
 {
@@ -58,8 +58,6 @@ namespace APRSDroid
             {
                 CreateDirectoryForPictures();
 
-                CreateDefaultCascade();
-
                 // check write storage permission
                 var permissionCheck = ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage);
                 if (permissionCheck == Permission.Denied)
@@ -68,14 +66,16 @@ namespace APRSDroid
                 // check update for application
                     Version.StatusVersionApp(App._dir.ToString(), this);
 
+                CreateDefaultCascade();
 
                 imageView = FindViewById<ImageView>(Resource.Id.imageView);
+                Button btnCrop = FindViewById<Button>(Resource.Id.btnCrop);
                 Button btnCamera = FindViewById<Button>(Resource.Id.btnCamera);
                 Button btnFile = FindViewById<Button>(Resource.Id.btnFile);
                 Button btnSendPic = FindViewById<Button>(Resource.Id.btnSendPic);
                 Button btnSendLoc = FindViewById<Button>(Resource.Id.btnLocal);
 
-
+                btnCrop.Click += BtnCrop_Click;
                 btnCamera.Click += BtnCamera_Click;
                 btnFile.Click += BtnFile_Click;
                 btnSendPic.Click += BtnSendPic_Click;
@@ -170,7 +170,12 @@ namespace APRSDroid
         /// </summary>
         private async void CreateDefaultCascade()
         {
-            App._APRSDir = new File(Environment.GetExternalStoragePublicDirectory(Environment.DataDirectory.Parent), "APRSDroid");
+            var permissionCheck = ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage);
+            if (permissionCheck == Permission.Denied)
+                return;
+
+
+                App._APRSDir = new File(Environment.GetExternalStoragePublicDirectory(Environment.DataDirectory.Parent), "APRSDroid");
             
             if (!App._APRSDir.Exists())
             {
@@ -224,37 +229,53 @@ namespace APRSDroid
             int height = Resources.DisplayMetrics.HeightPixels;
             int width = Resources.DisplayMetrics.WidthPixels;
 
-
-            if (App._file != null && resultCode == Result.Ok)
+            if(requestCode == 0)
             {
-                Bitmap bitmap = App._file.Path.LoadAndResizeBitmap(width, height);
-
-                imageView.SetImageBitmap(bitmap);
-            }
-            else if(data != null && data.Data != null)
-            {
-                if (!data.Data.ToString().Contains(@"file:///storage/emulated/"))
+                if (App._file != null && resultCode == Result.Ok)
                 {
-                    App.FilePath = data.Data;
-                    App.FilePathFull = GetFilePath(data.Data);
+                    Bitmap bitmap = App._file.Path.LoadAndResizeBitmap(width, height);
 
-                    if (App.FilePathFull == null)
+                    imageView.SetImageBitmap(bitmap);
+                }
+                else if (data != null && data.Data != null)
+                {
+                    if (!data.Data.ToString().Contains(@"file:///storage/emulated/"))
                     {
-                        App.FilePathFull = GetRealPathFromURI(data.Data);
-                        if (App.FilePathFull == null) return;
+                        App.FilePath = data.Data;
+                        App.FilePathFull = GetFilePath(data.Data);
+
+                        if (App.FilePathFull == null)
+                        {
+                            App.FilePathFull = GetRealPathFromURI(data.Data);
+                            if (App.FilePathFull == null) return;
+                            App.FilePath = Uri.Parse(App.FilePathFull);
+                        }
+                    }
+                    else
+                    {
+                        App.FilePathFull = data.Data.ToString().Replace(@"file://", "");
                         App.FilePath = Uri.Parse(App.FilePathFull);
                     }
-                }
-                else
-                {
-                    App.FilePathFull = data.Data.ToString().Replace(@"file://","");
-                    App.FilePath = Uri.Parse(App.FilePathFull);
-                }
 
-                Bitmap bitmap = App.FilePathFull.LoadAndResizeBitmap(width, height);
-                bitmap = scaleDown(bitmap, width, false);
-                imageView.SetImageBitmap(bitmap);
+                    Bitmap bitmap = App.FilePathFull.LoadAndResizeBitmap(width, height);
+                    bitmap = scaleDown(bitmap, width, false);
+                    imageView.SetImageBitmap(bitmap);
+                }
             }
+            else if(requestCode == 1)
+            {
+                string filePath = GetImgPathWithOutMessage();
+
+                if (!string.IsNullOrEmpty(filePath) && System.IO.File.Exists(filePath))
+                {
+                    //Uri pathUri = Android.Net.Uri.Parse(filePath);
+                    //imageView.SetImageURI(pathUri);
+
+                    Bitmap bitmap = filePath.Resize(width, height);
+                    imageView.SetImageBitmap(bitmap);
+                }
+            }
+
 
             // Dispose of the Java side bitmap.
             GC.Collect();
@@ -322,6 +343,24 @@ namespace APRSDroid
             }
         }
 
+        /// <summary>
+        /// Вызвать интерфейс обрезки изображения
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnCrop_Click(object sender, EventArgs e)
+        {
+            string imgPath = GetImgPath();
+
+            if(!string.IsNullOrEmpty(imgPath))
+            {
+                Intent intent = new Intent(this, typeof(CropImage));
+                intent.PutExtra("image-path", imgPath);
+                intent.PutExtra("scale", true);
+                //StartActivity(intent);
+                StartActivityForResult(intent, 1);
+            }
+        }
 
         /// <summary>
         /// Выбрать существующий файл для распознования
@@ -361,6 +400,8 @@ namespace APRSDroid
             {
                 ActivityCompat.RequestPermissions(this, new String[] { Manifest.Permission.ReadExternalStorage }, REQUEST_STORAGE);
             }
+
+            CreateDefaultCascade();
         }
 
         /// <summary>
@@ -370,35 +411,13 @@ namespace APRSDroid
         /// <param name="e"></param>
         private void BtnSendPic_Click(object sender, EventArgs e)
         {
-            if (App._file != null)
-            {
-                //AndHUD.Shared.Show(this, GetString(Resource.String.loadig), -1, MaskType.Clear);
-                AndHUD.Shared.ShowSuccess(this, GetString(Resource.String.loadig), MaskType.Clear);
-                StartWebActivity(App._file.Path);
-            }
-            else if (App.FilePathFull != null)
-            {
-                //AndHUD.Shared.Show(this, GetString(Resource.String.loadig), -1, MaskType.Clear);
-                AndHUD.Shared.ShowSuccess(this, GetString(Resource.String.loadig), MaskType.Clear);
-                StartWebActivity(App.FilePathFull);
-            }
-            else
-            {
-                AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.SetMessage(Resource.String.empty_photo);
-                alert.SetTitle(Resource.String.warning);
-                alert.SetPositiveButton("Ok", (senderAlert, args) => {
-                    //change value write your own set of instructions
-                    //you can also create an event for the same in xamarin
-                    //instead of writing things here
-                });
+            string filePath = GetImgPath();
 
-
-                RunOnUiThread(() => {
-                    alert.Show();
-                });
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                AndHUD.Shared.ShowSuccess(this, GetString(Resource.String.loadig), MaskType.Clear);
+                StartWebActivity(filePath);
             }
-          
         }
 
         /// <summary>
@@ -410,35 +429,11 @@ namespace APRSDroid
         {
             var p_cascade = APRSDroid.SettingsView.CascadeSaveFileName;
 
-            string filePath = string.Empty;
+            // получаем путь к файлу для распознования
+            string filePath = GetImgPath();
 
-            // Проверка пути к файлу
-            if (App._file != null)
-            {
-                filePath = App._file.Path;
-            }
-            else if (App.FilePathFull != null)
-            {
-                filePath = App.FilePathFull;
-            }
-            else
-            {
-                AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.SetMessage(Resource.String.empty_photo);
-                alert.SetTitle(Resource.String.warning);
-                alert.SetPositiveButton("Ok", (senderAlert, args) => {
-                    //change value write your own set of instructions
-                    //you can also create an event for the same in xamarin
-                    //instead of writing things here
-                });
-
-
-                RunOnUiThread(() => {
-                    alert.Show();
-                });
-
-                return;
-            }
+            // проверка существования файла для распознования
+            if (string.IsNullOrEmpty(filePath)) return;
 
             //Если каскад не пустой
             if (!String.IsNullOrEmpty(p_cascade))
@@ -545,7 +540,7 @@ namespace APRSDroid
                     FileForRecognize.Draw(string.Format("{0}", counter), ref font, point, new Bgr(System.Drawing.Color.Red));
                 }
             }
-            Toast.MakeText(this, "Количество: " + counter + "  Затрачено времени: " + time, ToastLength.Short).Show();
+            Toast.MakeText(this, "Количество: " + counter + "  Затрачено времени: " + time, ToastLength.Long).Show();
             imageView.SetImageBitmap(FileForRecognize.ToBitmap());
 
             GC.Collect();
@@ -621,6 +616,65 @@ namespace APRSDroid
         {
             Intent settView = new Intent(this, typeof(APRSDroid.SettingsView));
             StartActivity(settView);
+        }
+
+        /// <summary>
+        /// Получить путь в файлу
+        /// </summary>
+        /// <returns></returns>
+        private string GetImgPath()
+        {
+            string filePath = string.Empty;
+
+            // Проверка пути к файлу
+            if (App._file != null)
+            {
+                filePath = App._file.Path;
+            }
+            else if (App.FilePathFull != null)
+            {
+                filePath = App.FilePathFull;
+            }
+            else
+            {
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.SetMessage(Resource.String.empty_photo);
+                alert.SetTitle(Resource.String.warning);
+                alert.SetPositiveButton("Ok", (senderAlert, args) => {
+                    //change value write your own set of instructions
+                    //you can also create an event for the same in xamarin
+                    //instead of writing things here
+                });
+
+
+                RunOnUiThread(() => {
+                    alert.Show();
+                });
+                
+            }
+
+            return filePath;
+        }
+
+        /// <summary>
+        /// Получить путь в файлу без окна предупреждения
+        /// </summary>
+        /// <returns></returns>
+        private string GetImgPathWithOutMessage()
+        {
+            string filePath = string.Empty;
+
+            // Проверка пути к файлу
+            if (App._file != null)
+            {
+                filePath = App._file.Path;
+            }
+            else if (App.FilePathFull != null)
+            {
+                filePath = App.FilePathFull;
+            }
+
+            return filePath;
         }
 
     }

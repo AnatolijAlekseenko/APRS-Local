@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="ApplicationName">APRSDroid</string>
-  <string name="openLocal">Local Recognize(NEW)</string>
+  <string name="openLocal">Recognize Offline</string>
   <string name="openCamera">Open Camera</string>
-  <string name="sendPic">Recognize</string>
+  <string name="sendPic">Recognize Online</string>
   <string name="openFile">Open File</string>
   <string name="m_settings">Settings</string>
   <string name="connectionString">Connection URL</string>
@@ -16,4 +16,9 @@
   <string name="permission_camera_rationale">Camera permission is needed to show the camera preview.</string>
   <string name="permision_available_storage">Storage Permission has been granted. Storage can now be opened.</string>
   <string name="permission_storage_rationale">Storage permission is needed to show files.</string>
+  <string name="cropImg">Crop Image</string>
+  <string name="cropSave">Save</string>
+  <string name="cropDis">Cancle</string>
+  <string name="cropLeft">Rotate Left</string>
+  <string name="cropRight">Rotate Right</string>
 </resources>
