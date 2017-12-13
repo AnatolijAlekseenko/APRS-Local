@@ -503,8 +503,13 @@ namespace APRSDroid
             int counter = 0;
             int i = 1; //counter tubes
             MCvFont font = new MCvFont(Emgu.CV.CvEnum.FONT.CV_FONT_HERSHEY_COMPLEX_SMALL, 1.0, 1.0);
+
+           
+
+
+            var ArchFile = filenameForRecognize.LoadAndResizeBitmap(1024, 1024);
             //Haar cascade
-            var FileForRecognize = new Image<Bgr, byte>(filenameForRecognize);
+            var FileForRecognize = new Image<Bgr, byte>(ArchFile);
             DetectFace.Detect(FileForRecognize, filename, filename, tubes, old, out time);
             double AVGarea = 0.00;
             foreach (Rectangle tube in tubes)
@@ -540,7 +545,14 @@ namespace APRSDroid
                     FileForRecognize.Draw(string.Format("{0}", counter), ref font, point, new Bgr(System.Drawing.Color.Red));
                 }
             }
-            Toast.MakeText(this, "Количество: " + counter + "  Затрачено времени: " + time, ToastLength.Long).Show();
+            //Toast.MakeText(this, "Количество: " + counter + "  Затрачено времени: " + time, ToastLength.Long).Show();
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.SetTitle("Подтверждение");
+            alert.SetMessage(string.Format("Распознано объектов: {0} , " +
+                "                           Время распознавания: {1}", counter.ToString(), time.ToString()));
+
+            alert.SetPositiveButton("Подтверждение", (senderAlert, args) => { Toast.MakeText(this, "Подтверждено!", ToastLength.Short).Show(); });
+            RunOnUiThread(() => { alert.Show(); });
             imageView.SetImageBitmap(FileForRecognize.ToBitmap());
 
             GC.Collect();

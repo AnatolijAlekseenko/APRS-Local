@@ -111,11 +111,10 @@
       <HintPath>..\..\assemblies\Emgu.CV.Android.dll</HintPath>
     </Reference>
     <Reference Include="Emgu.CV.Example">
-      <HintPath>..\..\..\AndroidLibrary\test\Emgu.CV.Example.dll</HintPath>
+      <HintPath>..\..\..\..\Develop\InDevelop\assemblies\Emgu.CV.Example.dll</HintPath>
     </Reference>
-    <Reference Include="Emgu.CV.GPU.Android, Version=2.4.9.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\AndroidLibrary\test\Emgu.CV.GPU.Android.dll</HintPath>
+    <Reference Include="Emgu.CV.GPU.Android">
+      <HintPath>..\..\..\..\Develop\InDevelop\assemblies\Emgu.CV.GPU.Android.dll</HintPath>
     </Reference>
     <Reference Include="Emgu.Util.Android, Version=2.4.9.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -320,11 +319,7 @@
     <AndroidResource Include="Resources\xml\file_paths.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\box3.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="Assets\def-cascade.xml" />
-    <Content Include="new 3.txt" />
     <AndroidResource Include="Resources\drawable\camera_crop_height.png" />
     <AndroidResource Include="Resources\drawable\camera_crop_width.png" />
   </ItemGroup>
