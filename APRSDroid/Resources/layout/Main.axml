@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="10"
+    android:background="@color/material_grey_50"
     tools:menu="options_menu">
     <ImageView
         android:id="@+id/imageView"
@@ -13,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerInside"
+        android:background="@color/material_grey_50"
         android:layout_marginBottom="0.0dp" />
     <Button
         android:layout_weight="1"
@@ -20,8 +22,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/cropImg"
+        android:backgroundTint="@color/my_blue"
         android:layout_marginLeft="0.0dp" />
     <LinearLayout
+        android:background="@color/material_grey_50"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
         <Button
@@ -30,6 +34,7 @@
             android:layout_width="190.0dp"
             android:layout_height="wrap_content"
             android:text="@string/openFile"
+            android:backgroundTint="@color/my_blue"
             android:layout_marginLeft="0.0dp" />
         <Button
             android:layout_weight="1"
@@ -37,9 +42,11 @@
             android:layout_width="190.0dp"
             android:layout_height="wrap_content"
             android:text="@string/openCamera"
+            android:backgroundTint="@color/my_blue"
             android:layout_marginRight="0.0dp" />
     </LinearLayout>
     <LinearLayout
+        android:background="@color/material_grey_50"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
         <Button
@@ -47,12 +54,14 @@
             android:id="@+id/btnSendPic"
             android:layout_width="190.0dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/my_blue"
             android:text="@string/sendPic" />
         <Button
             android:layout_weight="1"
             android:id="@+id/btnLocal"
             android:layout_width="190.0dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/my_blue"
             android:text="@string/openLocal" />
     </LinearLayout>
 </LinearLayout>

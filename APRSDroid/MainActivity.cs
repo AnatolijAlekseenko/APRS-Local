@@ -458,6 +458,7 @@ namespace APRSDroid
                 try
                 {
                     GC.Collect();
+                    if (!CheckDefCascadeExists()) return;
                     Toast.MakeText(this, "Используется Каскад по умолчанию", ToastLength.Short).Show();
                     Recognize(filePath, App.def_cascade);
                 }
@@ -471,7 +472,6 @@ namespace APRSDroid
 
 
         }
-
 
 
         /// <summary>
@@ -503,8 +503,6 @@ namespace APRSDroid
             int counter = 0;
             int i = 1; //counter tubes
             MCvFont font = new MCvFont(Emgu.CV.CvEnum.FONT.CV_FONT_HERSHEY_COMPLEX_SMALL, 1.0, 1.0);
-
-           
 
 
             var ArchFile = filenameForRecognize.LoadAndResizeBitmap(1024, 1024);
@@ -687,6 +685,64 @@ namespace APRSDroid
             }
 
             return filePath;
+        }
+
+        /// <summary>
+        /// Проврека наличия каскада по-умолчанию
+        /// </summary>
+        /// <returns></returns>
+        private bool CheckDefCascadeExists()
+        {
+            bool result = true;
+
+            if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.ReadExternalStorage) != (int)Permission.Granted)
+            {
+                // Storage permission has not been granted
+                RequestStoragePermission();
+                return false;
+            }
+
+            string filename = string.Format("{0}/{1}", App._APRSDir, App.def_cascade);
+
+            try
+            {
+                if (!System.IO.File.Exists(filename))
+                {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                    alert.SetMessage(Resource.String.defCasNotExst);
+                    alert.SetTitle(Resource.String.warning);
+                    alert.SetPositiveButton("Ok", (senderAlert, args) => {
+                        //change value write your own set of instructions
+                        //you can also create an event for the same in xamarin
+                        //instead of writing things here
+                    });
+
+
+                    RunOnUiThread(() => {
+                        alert.Show();
+                    });
+
+                    result = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.SetMessage(ex.Message);
+                alert.SetTitle(Resource.String.warning);
+                alert.SetPositiveButton("Ok", (senderAlert, args) => {
+                    //change value write your own set of instructions
+                    //you can also create an event for the same in xamarin
+                    //instead of writing things here
+                });
+
+
+                RunOnUiThread(() => {
+                    alert.Show();
+                });
+            }
+
+            return result;
         }
 
     }
